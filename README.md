@@ -2,7 +2,7 @@
 
 **CineVault** is a premium, cinema-vault themed movie & series discovery app built as a front-end portfolio project. It lets users browse a curated film collection, search and filter by genre, view detailed info in a playbill-style modal, and save titles to a personal watchlist ("The Vault") — all wrapped in a distinctive dark, marquee-poster visual identity instead of a generic template look.
 
-🔗 **Live demo:** _add your GitHub Pages link here_
+🔗 **Live demo:** https://zyaaan66.github.io/Cinevault/
 
 ---
 
