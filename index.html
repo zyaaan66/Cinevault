@@ -883,4 +883,782 @@ async function init(){
 init();
 </script>
 </body>
+</html>    padding:12px 16px 12px 40px;
+    border-radius:3px;
+    font-size:14px;
+    font-family:'Inter',sans-serif;
+  }
+  .cv-search input::placeholder{ color:var(--muted); }
+  .cv-search input:focus{ border-color:var(--gold); }
+  .cv-search-icon{
+    position:absolute; left:14px; top:50%; transform:translateY(-50%);
+    width:14px; height:14px; opacity:0.6;
+  }
+
+  .cv-vault-btn{
+    display:flex; align-items:center; gap:10px;
+    background:transparent;
+    border:1px solid var(--gold);
+    color:var(--gold);
+    padding:10px 16px;
+    border-radius:3px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    letter-spacing:0.04em;
+    white-space:nowrap;
+    transition:background 0.15s ease, color 0.15s ease;
+  }
+  .cv-vault-btn:hover{ background:var(--gold); color:var(--ink); }
+
+  /* ---------- hero ---------- */
+  .cv-hero{
+    position:relative;
+    padding:64px clamp(18px,4vw,56px) 56px;
+    display:grid;
+    grid-template-columns: minmax(220px,280px) 1fr;
+    gap:44px;
+    align-items:center;
+    background:
+      radial-gradient(ellipse at 15% 20%, rgba(201,162,39,0.08), transparent 55%),
+      var(--ink);
+    overflow:hidden;
+  }
+  .cv-hero-eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin:0 0 14px;
+  }
+  .cv-hero-title{
+    font-family:'Oswald',sans-serif;
+    font-weight:700;
+    font-size:clamp(34px,5vw,58px);
+    line-height:1.02;
+    letter-spacing:0.01em;
+    margin:0 0 16px;
+    text-transform:uppercase;
+  }
+  .cv-hero-meta{
+    display:flex; gap:14px; flex-wrap:wrap;
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    color:var(--muted);
+    margin-bottom:18px;
+  }
+  .cv-hero-meta span:not(:last-child)::after{ content:"·"; margin-left:14px; color:var(--line); }
+  .cv-hero-overview{
+    max-width:560px;
+    color:#C9C7BE;
+    line-height:1.65;
+    font-size:15px;
+    margin:0 0 26px;
+  }
+  .cv-hero-actions{ display:flex; gap:14px; flex-wrap:wrap; }
+
+  /* ---------- poster art (signature) ---------- */
+  .cv-poster{
+    position:relative;
+    aspect-ratio:2/3;
+    border-radius:4px;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+    border:1px solid var(--line);
+  }
+  .cv-poster-inner{
+    position:absolute; inset:0;
+    display:flex; align-items:flex-end;
+    z-index:2;
+  }
+  .cv-poster-glyph{
+    font-family:'Oswald',sans-serif;
+    font-weight:700;
+    font-size:56%;
+    line-height:1;
+    color:rgba(243,238,226,0.14);
+    position:absolute;
+    top:50%; left:50%;
+    transform:translate(-50%,-58%);
+  }
+  .cv-poster-label{
+    position:relative; z-index:2;
+    width:100%;
+    padding:14px 12px;
+    background:linear-gradient(to top, rgba(0,0,0,0.72), transparent);
+  }
+  .cv-poster-label b{
+    display:block;
+    font-family:'Oswald',sans-serif;
+    font-size:14px;
+    letter-spacing:0.02em;
+    text-transform:uppercase;
+    line-height:1.2;
+  }
+  .cv-poster-label i{
+    display:block;
+    font-style:normal;
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;
+    color:rgba(243,238,226,0.65);
+    margin-top:3px;
+    letter-spacing:0.05em;
+  }
+  .cv-rating-stamp{
+    position:absolute; top:10px; right:10px; z-index:3;
+    width:38px; height:38px;
+    border-radius:50%;
+    border:1.5px dashed rgba(243,238,226,0.55);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px; font-weight:600;
+    background:rgba(11,12,15,0.55);
+    backdrop-filter:blur(2px);
+  }
+  .cv-sprocket-strip{
+    position:absolute; left:0; top:0; bottom:0; width:9px; z-index:3;
+    background-color:rgba(0,0,0,0.35);
+    background-image: radial-gradient(circle at 4.5px 8px, var(--ink) 2.6px, transparent 2.8px);
+    background-size: 9px 16px;
+    background-repeat:repeat-y;
+  }
+
+  .cv-poster--gold .cv-poster-inner{ background:linear-gradient(155deg, #2a2313 0%, var(--ink) 60%); }
+  .cv-poster--crimson .cv-poster-inner{ background:linear-gradient(155deg, #2a121c 0%, var(--ink) 60%); }
+  .cv-poster--teal .cv-poster-inner{ background:linear-gradient(155deg, #0f2626 0%, var(--ink) 60%); }
+  .cv-poster--gold .cv-rating-stamp{ border-color: var(--gold-soft); color:var(--gold-soft); }
+  .cv-poster--crimson .cv-rating-stamp{ border-color: var(--crimson-soft); color:var(--crimson-soft); }
+  .cv-poster--teal .cv-rating-stamp{ border-color: var(--teal-soft); color:var(--teal-soft); }
+
+  /* when a real poster photo is loaded, drop the decorative gradient/glyph and keep only the bottom label fade */
+  .cv-poster--photo .cv-poster-inner{ background:transparent; }
+  .cv-poster--photo .cv-poster-glyph{ display:none; }
+
+  /* ---------- buttons ---------- */
+  .cv-btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:12px 20px;
+    border-radius:3px;
+    font-size:13.5px;
+    font-weight:600;
+    letter-spacing:0.02em;
+    border:1px solid transparent;
+    transition:transform 0.12s ease, background 0.15s ease, border-color 0.15s ease;
+  }
+  .cv-btn:active{ transform:scale(0.97); }
+  .cv-btn--solid{ background:var(--gold); color:var(--ink); }
+  .cv-btn--solid:hover{ background:var(--gold-soft); }
+  .cv-btn--ghost{ background:transparent; border-color:var(--line); color:var(--paper); }
+  .cv-btn--ghost:hover{ border-color:var(--paper); }
+  .cv-btn--saved{ background:var(--surface-raised); color:var(--gold); border-color:var(--gold); }
+
+  /* ---------- ticket notch button (signature) ---------- */
+  .cv-ticket{
+    position:relative;
+    padding-left:26px; padding-right:26px;
+  }
+  .cv-ticket::before, .cv-ticket::after{
+    content:"";
+    position:absolute; top:50%; transform:translateY(-50%);
+    width:12px; height:12px; border-radius:50%;
+    background:var(--ink);
+  }
+  .cv-ticket::before{ left:-6px; }
+  .cv-ticket::after{ right:-6px; }
+  .cv-hero .cv-ticket::before, .cv-hero .cv-ticket::after{ background:var(--ink); }
+
+  /* ---------- filter chips ---------- */
+  .cv-chips{
+    display:flex; gap:10px; flex-wrap:wrap;
+    padding:28px clamp(18px,4vw,56px) 6px;
+  }
+  .cv-chip{
+    background:var(--surface);
+    border:1px solid var(--line);
+    color:var(--muted);
+    padding:8px 16px;
+    border-radius:20px;
+    font-size:13px;
+    font-family:'JetBrains Mono',monospace;
+    letter-spacing:0.02em;
+    transition:all 0.15s ease;
+  }
+  .cv-chip:hover{ color:var(--paper); border-color:var(--paper); }
+  .cv-chip.is-active{ background:var(--gold); border-color:var(--gold); color:var(--ink); font-weight:600; }
+
+  /* ---------- grid ---------- */
+  .cv-section-title{
+    font-family:'Oswald',sans-serif;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    font-size:13px;
+    color:var(--muted);
+    padding:22px clamp(18px,4vw,56px) 0;
+    display:flex; align-items:center; gap:10px;
+  }
+  .cv-section-title::after{
+    content:""; flex:1; height:1px; background:var(--line);
+  }
+  .cv-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(190px,1fr));
+    gap:22px;
+    padding:20px clamp(18px,4vw,56px) 60px;
+  }
+  .cv-card{
+    background:none; border:none; padding:0; text-align:left;
+    color:inherit;
+    display:flex; flex-direction:column;
+  }
+  .cv-card .cv-poster{ cursor:pointer; transition:transform 0.18s ease, box-shadow 0.18s ease; }
+  .cv-card:hover .cv-poster{ transform:translateY(-6px); box-shadow:0 26px 46px -18px rgba(0,0,0,0.7); }
+  .cv-card-overlay{
+    position:absolute; inset:0; z-index:4;
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    background:rgba(11,12,15,0.62);
+    opacity:0; transition:opacity 0.18s ease;
+  }
+  .cv-card:hover .cv-card-overlay, .cv-card:focus-within .cv-card-overlay{ opacity:1; }
+  .cv-icon-btn{
+    width:38px; height:38px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--paper); color:var(--ink);
+    border:none; font-size:16px;
+  }
+  .cv-icon-btn.is-saved{ background:var(--gold); }
+  .cv-icon-btn--ghost{ background:transparent; border:1.5px solid var(--paper); color:var(--paper); }
+
+  .cv-empty{
+    padding:70px 20px; text-align:center; color:var(--muted);
+    font-family:'JetBrains Mono',monospace; font-size:14px;
+    grid-column:1/-1;
+  }
+
+  /* ---------- modal ---------- */
+  .cv-modal-backdrop{
+    position:fixed; inset:0; background:rgba(6,7,9,0.78);
+    display:flex; align-items:center; justify-content:center;
+    padding:24px; z-index:100;
+    opacity:0; pointer-events:none; transition:opacity 0.2s ease;
+  }
+  .cv-modal-backdrop.is-open{ opacity:1; pointer-events:auto; }
+  .cv-modal{
+    background:var(--surface);
+    max-width:760px; width:100%;
+    max-height:88vh; overflow-y:auto;
+    border-radius:4px;
+    transform:translateY(16px);
+    transition:transform 0.2s ease;
+    position:relative;
+  }
+  .cv-modal-backdrop.is-open .cv-modal{ transform:translateY(0); }
+  .cv-modal-close{
+    position:absolute; top:16px; right:16px; z-index:5;
+    width:34px; height:34px; border-radius:50%;
+    background:rgba(11,12,15,0.6); border:1px solid var(--line);
+    color:var(--paper); font-size:16px;
+  }
+  .cv-modal-body{
+    display:grid; grid-template-columns:220px 1fr; gap:0;
+  }
+  .cv-modal-poster{ border-radius:0; }
+  .cv-modal-info{ padding:30px 30px 26px; }
+  .cv-modal-title{
+    font-family:'Oswald',sans-serif; font-weight:700; text-transform:uppercase;
+    font-size:28px; margin:0 0 8px; letter-spacing:0.01em;
+  }
+  .cv-modal-meta{
+    display:flex; gap:12px; flex-wrap:wrap;
+    font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--muted);
+    margin-bottom:14px;
+  }
+  .cv-modal-meta span:not(:last-child)::after{ content:"·"; margin-left:12px; }
+  .cv-tags{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px; }
+  .cv-tag{
+    font-size:11px; letter-spacing:0.05em; text-transform:uppercase;
+    padding:4px 10px; border-radius:12px;
+    border:1px solid var(--line); color:var(--paper);
+    font-family:'JetBrains Mono',monospace;
+  }
+  .cv-modal-overview{ line-height:1.7; color:#C9C7BE; font-size:14.5px; margin:0 0 24px; }
+  .cv-modal-actions{ display:flex; gap:12px; flex-wrap:wrap; }
+
+  /* ---------- drawer ---------- */
+  .cv-drawer-backdrop{
+    position:fixed; inset:0; background:rgba(6,7,9,0.6);
+    z-index:90; opacity:0; pointer-events:none; transition:opacity 0.2s ease;
+  }
+  .cv-drawer-backdrop.is-open{ opacity:1; pointer-events:auto; }
+  .cv-drawer{
+    position:fixed; top:0; right:0; bottom:0;
+    width:min(380px,92vw);
+    background:var(--surface);
+    z-index:95;
+    transform:translateX(100%);
+    transition:transform 0.25s ease;
+    display:flex; flex-direction:column;
+    border-left:1px solid var(--line);
+  }
+  .cv-drawer.is-open{ transform:translateX(0); }
+  .cv-drawer-head{
+    padding:22px 22px 16px;
+    display:flex; align-items:center; justify-content:space-between;
+    border-bottom:1px solid var(--line);
+  }
+  .cv-drawer-title{ font-family:'Oswald',sans-serif; text-transform:uppercase; font-size:18px; letter-spacing:0.03em; }
+  .cv-drawer-list{ padding:14px 16px; overflow-y:auto; flex:1; display:flex; flex-direction:column; gap:10px; }
+  .cv-stub{
+    display:flex; align-items:center; gap:12px;
+    background:var(--surface-raised);
+    border:1px dashed var(--line);
+    border-radius:4px;
+    padding:10px;
+  }
+  .cv-stub-poster{ width:44px; height:64px; border-radius:2px; flex-shrink:0; position:relative; overflow:hidden; }
+  .cv-stub-info{ flex:1; min-width:0; }
+  .cv-stub-info b{ display:block; font-size:13px; font-family:'Oswald',sans-serif; text-transform:uppercase; letter-spacing:0.01em; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .cv-stub-info span{ font-size:11.5px; color:var(--muted); font-family:'JetBrains Mono',monospace; }
+  .cv-stub-remove{ background:none; border:none; color:var(--muted); font-size:18px; padding:4px; }
+  .cv-stub-remove:hover{ color:var(--crimson-soft); }
+  .cv-drawer-empty{ padding:50px 20px; text-align:center; color:var(--muted); font-family:'JetBrains Mono',monospace; font-size:13px; line-height:1.6; }
+
+  /* ---------- toast ---------- */
+  .cv-toast{
+    position:fixed; bottom:26px; left:50%;
+    transform:translate(-50%,20px);
+    background:var(--gold); color:var(--ink);
+    padding:12px 22px; border-radius:24px;
+    font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:600;
+    opacity:0; transition:all 0.25s ease; pointer-events:none;
+    z-index:200;
+  }
+  .cv-toast.is-shown{ opacity:1; transform:translate(-50%,0); }
+
+  footer.cv-footer{
+    text-align:center; padding:30px 20px 40px;
+    color:var(--muted); font-family:'JetBrains Mono',monospace; font-size:11.5px;
+    letter-spacing:0.04em;
+  }
+
+  @media (max-width: 720px){
+    .cv-hero{ grid-template-columns:1fr; }
+    .cv-hero .cv-poster{ max-width:220px; margin:0 auto; }
+    .cv-modal-body{ grid-template-columns:1fr; }
+    .cv-modal-poster{ aspect-ratio:16/9; }
+    .cv-header{ flex-wrap:wrap; }
+    .cv-search{ order:3; max-width:100%; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ transition:none !important; animation:none !important; }
+  }
+</style>
+</head>
+<body>
+
+  <header class="cv-header">
+    <div class="cv-brand">
+      <div class="cv-brand-mark">Cine<span>Vault</span></div>
+      <div class="cv-brand-tag">Arsip Sinema Pribadi</div>
+    </div>
+    <div class="cv-search">
+      <svg class="cv-search-icon" viewBox="0 0 24 24" fill="none" stroke="#8D8F97" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="cv-search-input" type="text" placeholder="Cari judul film atau series…" autocomplete="off" />
+    </div>
+    <button class="cv-vault-btn" id="cv-open-drawer">🎟 Vault (<span id="cv-vault-count">0</span>)</button>
+  </header>
+
+  <div class="cv-sprockets"></div>
+
+  <div id="cv-status-banner" style="display:none;padding:14px 24px;font-family:'JetBrains Mono',monospace;font-size:13px;text-align:center;"></div>
+
+  <section class="cv-hero cv-grain" id="cv-hero"></section>
+
+  <div class="cv-sprockets cv-sprockets--dim"></div>
+
+  <div class="cv-chips" id="cv-chips"></div>
+
+  <div class="cv-section-title" id="cv-grid-title">Koleksi</div>
+  <div class="cv-grid" id="cv-grid"></div>
+
+  <footer class="cv-footer">CINEVAULT — DIBANGUN UNTUK PORTOFOLIO · DATA FILM DARI OMDb API</footer>
+
+  <div class="cv-modal-backdrop" id="cv-modal-backdrop">
+    <div class="cv-modal" role="dialog" aria-modal="true" id="cv-modal">
+      <button class="cv-modal-close" id="cv-modal-close" aria-label="Tutup">✕</button>
+      <div class="cv-modal-body" id="cv-modal-body"></div>
+    </div>
+  </div>
+
+  <div class="cv-drawer-backdrop" id="cv-drawer-backdrop"></div>
+  <aside class="cv-drawer" id="cv-drawer" aria-label="Watchlist">
+    <div class="cv-drawer-head">
+      <div class="cv-drawer-title">Vault Kamu</div>
+      <button class="cv-modal-close" id="cv-drawer-close" style="position:static;" aria-label="Tutup">✕</button>
+    </div>
+    <div class="cv-drawer-list" id="cv-drawer-list"></div>
+  </aside>
+
+  <div class="cv-toast" id="cv-toast"></div>
+
+<script>
+/* =========================================================
+   CONFIG — sumber data bisa TMDB, OMDb, atau mock (fallback).
+   Diisi salah satu key di bawah untuk mengaktifkan API asli.
+========================================================= */
+const CONFIG = {
+  TMDB_API_KEY: '',
+  TMDB_BASE: 'https://api.themoviedb.org/3',
+  TMDB_IMG: 'https://image.tmdb.org/t/p/w500',
+
+  OMDB_API_KEY: '72113558',
+  OMDB_BASE: 'https://www.omdbapi.com/'
+};
+const USE_TMDB = Boolean(CONFIG.TMDB_API_KEY);
+const USE_OMDB = !USE_TMDB && Boolean(CONFIG.OMDB_API_KEY);
+
+/* OMDb tidak punya endpoint "discover", jadi koleksi awal diambil
+   dari daftar IMDb ID pilihan berikut — bisa ditambah/diganti bebas. */
+const OMDB_CURATED_IDS = [
+  "tt1375666", // Inception
+  "tt0468569", // The Dark Knight
+  "tt0109830", // Forrest Gump
+  "tt0120338", // Titanic
+  "tt0110357", // The Lion King
+  "tt0107290", // Jurassic Park
+  "tt0993846", // The Wolf of Wall Street
+  "tt0816692", // Interstellar
+  "tt0361748", // Inglourious Basterds
+  "tt0245429", // Spirited Away
+  "tt6751668", // Parasite
+  "tt0114814", // The Usual Suspects
+  "tt0388795", // Little Miss Sunshine
+  "tt0081505", // The Shining
+  "tt0332280", // The Notebook
+  "tt2380307", // Coco
+  "tt0133093", // The Matrix
+  "tt0111161"  // The Shawshank Redemption
+];
+
+/* Pemetaan genre bahasa Inggris (dari OMDb/TMDB) ke label chip filter kita */
+const GENRE_MAP = {
+  "Action":"Aksi", "Drama":"Drama", "Sci-Fi":"Fiksi-Ilmiah", "Comedy":"Komedi",
+  "Horror":"Horor", "Animation":"Animasi", "Thriller":"Thriller", "Romance":"Romansa"
+};
+function mapGenres(rawList){
+  const mapped = rawList.map(g => GENRE_MAP[g.trim()]).filter(Boolean);
+  return [...new Set(mapped)];
+}
+function accentFor(genres){
+  if (genres.includes("Fiksi-Ilmiah") || genres.includes("Animasi")) return "teal";
+  if (genres.includes("Aksi") || genres.includes("Thriller") || genres.includes("Horor")) return "crimson";
+  return "gold";
+}
+
+/* ---------- mock dataset (fallback, no API key required) ---------- */
+const MOCK_MOVIES = [
+  { id:1, title:"Neon Halcyon", year:2024, runtime:118, director:"Rani Aditama", genres:["Fiksi-Ilmiah"], rating:8.6, accent:"teal", featured:true,
+    overview:"Seorang insinyur sinyal menemukan bahwa kota tempatnya tinggal menyiarkan pesan dari masa depan — dan hanya dialah yang bisa mendengarnya sebelum sinyal itu menghilang selamanya." },
+  { id:2, title:"The Glass Orchard", year:2023, runtime:104, director:"Malik Osei", genres:["Drama"], rating:7.9, accent:"gold",
+    overview:"Tiga saudara kembali ke rumah masa kecil mereka untuk menjual kebun kaca peninggalan ayah mereka, dan menemukan rahasia yang selama ini terkubur di antara pepohonan." },
+  { id:3, title:"Iron Meridian", year:2022, runtime:131, director:"Deniz Kural", genres:["Aksi"], rating:7.5, accent:"crimson",
+    overview:"Seorang mantan tentara bayaran ditarik kembali ke dunia lama untuk satu misi terakhir: mengawal kargo yang bisa mengubah keseimbangan kekuatan di seluruh benua." },
+  { id:4, title:"Paper Moths", year:2023, runtime:97, director:"Sofia Lindqvist", genres:["Romansa"], rating:7.2, accent:"gold",
+    overview:"Dua penulis surat kaleng saling jatuh cinta lewat kata-kata selama satu musim panas, tanpa pernah tahu bahwa mereka sudah lama saling mengenal di dunia nyata." },
+  { id:5, title:"Static Bloom", year:2024, runtime:92, director:"Théo Marchand", genres:["Horor"], rating:6.8, accent:"crimson",
+    overview:"Sebuah rumah tua mulai 'mekar' setiap kali penghuninya berbohong — dan kebohongan kecil ternyata bisa menumbuhkan sesuatu yang jauh lebih gelap." },
+  { id:6, title:"The Cartographer's Dream", year:2023, runtime:88, director:"Amara Okonkwo", genres:["Animasi"], rating:8.1, accent:"teal",
+    overview:"Seorang pembuat peta muda menjelajahi negeri yang berubah bentuk setiap kali dia tertidur, mencoba memetakan dunia yang menolak untuk tetap diam." },
+  { id:7, title:"Low Tide", year:2021, runtime:109, director:"Marcus Villanueva", genres:["Drama","Thriller"], rating:7.7, accent:"crimson",
+    overview:"Seorang nelayan menemukan bukti kejahatan lama yang terdampar di pantai desanya, dan harus memilih antara diam atau menghancurkan komunitas yang membesarkannya." },
+  { id:8, title:"Salt & Velvet", year:2022, runtime:101, director:"Priya Chandran", genres:["Komedi"], rating:7.0, accent:"gold",
+    overview:"Dua koki rival dipaksa berbagi satu dapur restoran selama musim liburan, dan perlahan menyadari bahwa persaingan mereka menyembunyikan sesuatu yang lain." },
+  { id:9, title:"The Last Ember", year:2020, runtime:142, director:"Elias Rourke", genres:["Aksi","Drama"], rating:8.0, accent:"crimson",
+    overview:"Di tahun-tahun terakhir sebuah kerajaan yang runtuh, seorang penjaga api suci harus memutuskan apakah tradisi itu masih layak diperjuangkan." },
+  { id:10, title:"Quiet Static", year:2023, runtime:95, director:"Nadia Farouk", genres:["Horor"], rating:6.5, accent:"crimson",
+    overview:"Sebuah stasiun radio komunitas mulai menyiarkan suara-suara yang tak seorang pun rekam — dan penyiar malam adalah satu-satunya yang mendengarnya secara langsung." },
+  { id:11, title:"Marigold Protocol", year:2024, runtime:114, director:"Katarina Vuković", genres:["Thriller"], rating:7.8, accent:"crimson",
+    overview:"Seorang analis intelijen menemukan pola tersembunyi dalam laporan cuaca yang, jika benar, berarti sebuah negara sedang direncanakan untuk dihancurkan secara diam-diam." },
+  { id:12, title:"Sundown Waltz", year:2021, runtime:99, director:"Hugo Bettencourt", genres:["Romansa"], rating:7.3, accent:"gold",
+    overview:"Seorang instruktur dansa dan muridnya yang enggan menghabiskan satu musim gugur belajar bahwa langkah paling sulit bukan di lantai dansa, melainkan dalam kejujuran." },
+  { id:13, title:"Hollow Constellation", year:2022, runtime:121, director:"Ingrid Solberg", genres:["Fiksi-Ilmiah","Animasi"], rating:8.3, accent:"teal",
+    overview:"Kru sebuah kapal generasi menemukan bahwa bintang tujuan mereka telah lama padam — dan harus memutuskan apa artinya 'pulang' ketika tujuan itu sudah tak ada." },
+  { id:14, title:"The Quiet Ledger", year:2020, runtime:106, director:"Owen Bracewell", genres:["Drama","Thriller"], rating:7.4, accent:"gold",
+    overview:"Seorang akuntan kota kecil menemukan selisih satu angka dalam pembukuan kotanya, dan mengikuti angka itu ke tempat yang jauh lebih dalam dari yang ia duga." }
+];
+
+const GENRES = ["Semua","Aksi","Drama","Fiksi-Ilmiah","Komedi","Horor","Animasi","Thriller","Romansa"];
+
+/* ---------- state ---------- */
+const state = {
+  movies: [],
+  activeGenre: "Semua",
+  query: "",
+  watchlist: [] // in-memory only
+};
+
+/* ---------- data layer ---------- */
+async function fetchMovies(){
+  if (USE_TMDB){
+    const res = await fetch(`${CONFIG.TMDB_BASE}/discover/movie?api_key=${CONFIG.TMDB_API_KEY}&sort_by=popularity.desc`);
+    const data = await res.json();
+    return (data.results || []).map(m => ({
+      id: m.id, title: m.title, year: (m.release_date||'').slice(0,4),
+      runtime: null, director: '—', genres: [], rating: m.vote_average,
+      overview: m.overview, accent: 'gold',
+      poster: m.poster_path ? CONFIG.TMDB_IMG + m.poster_path : null,
+      featured:false
+    }));
+  }
+  if (USE_OMDB){
+    const settled = await Promise.allSettled(
+      OMDB_CURATED_IDS.map(id =>
+        fetch(`${CONFIG.OMDB_BASE}?i=${id}&apikey=${CONFIG.OMDB_API_KEY}`).then(r => r.json())
+      )
+    );
+    const failedCount = settled.filter(s => s.status === 'rejected' || (s.value && s.value.Response === 'False')).length;
+    const firstRejection = settled.find(s => s.status === 'rejected');
+    if (failedCount) console.warn(`${failedCount} judul OMDb gagal diambil.`, firstRejection && firstRejection.reason);
+
+    const results = settled
+      .filter(s => s.status === 'fulfilled' && s.value && s.value.Response !== 'False')
+      .map(s => s.value);
+
+    if (!results.length){
+      const detail = firstRejection ? (firstRejection.reason && firstRejection.reason.message) : 'semua request ditolak API.';
+      throw new Error('Semua request ke OMDb gagal (' + (detail || 'unknown') + ').');
+    }
+
+    return results.map((d, idx) => {
+      const genres = mapGenres((d.Genre || '').split(','));
+      return {
+        id: d.imdbID,
+        title: d.Title,
+        year: parseInt(d.Year) || d.Year,
+        runtime: parseInt(d.Runtime) || null,
+        director: d.Director && d.Director !== 'N/A' ? d.Director : '—',
+        genres,
+        rating: parseFloat(d.imdbRating) || 0,
+        overview: d.Plot && d.Plot !== 'N/A' ? d.Plot : 'Sinopsis belum tersedia.',
+        accent: accentFor(genres),
+        poster: d.Poster && d.Poster !== 'N/A' ? d.Poster : null,
+        featured: idx === 0
+      };
+    });
+  }
+  return MOCK_MOVIES;
+}
+
+/* ---------- helpers ---------- */
+function posterArt(movie, extraClass){
+  const hasPhoto = Boolean(movie.poster);
+  const img = hasPhoto
+    ? `<img src="${movie.poster}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;" />`
+    : '';
+  return `
+    <div class="cv-poster cv-poster--${movie.accent} ${hasPhoto ? 'cv-poster--photo' : ''} ${extraClass||''}">
+      ${img}
+      <div class="cv-sprocket-strip"></div>
+      <div class="cv-rating-stamp">${movie.rating.toFixed(1)}</div>
+      <div class="cv-poster-inner">
+        <span class="cv-poster-glyph">${movie.title.charAt(0)}</span>
+        <div class="cv-poster-label">
+          <b>${movie.title}</b>
+          <i>${movie.year}${movie.genres && movie.genres.length ? ' · ' + movie.genres[0] : ''}</i>
+        </div>
+      </div>
+    </div>`;
+}
+
+function isSaved(id){ return state.watchlist.some(m => m.id === id); }
+
+function toggleWatchlist(movie){
+  if (isSaved(movie.id)){
+    state.watchlist = state.watchlist.filter(m => m.id !== movie.id);
+  } else {
+    state.watchlist.push(movie);
+    showToast('Ditambahkan ke Vault');
+  }
+  renderVaultCount();
+  renderDrawer();
+  renderGrid();
+  renderHero();
+  if (document.getElementById('cv-modal-backdrop').classList.contains('is-open')){
+    renderModalActions(movie);
+  }
+}
+
+function showToast(msg){
+  const t = document.getElementById('cv-toast');
+  t.textContent = msg;
+  t.classList.add('is-shown');
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(()=> t.classList.remove('is-shown'), 1800);
+}
+
+/* ---------- render: hero ---------- */
+function renderHero(){
+  const featured = state.movies.find(m => m.featured) || state.movies[0];
+  if (!featured) return;
+  const saved = isSaved(featured.id);
+  document.getElementById('cv-hero').innerHTML = `
+    ${posterArt(featured)}
+    <div>
+      <p class="cv-hero-eyebrow">Pilihan Vault Minggu Ini</p>
+      <h1 class="cv-hero-title">${featured.title}</h1>
+      <div class="cv-hero-meta">
+        <span>${featured.year}</span>
+        ${featured.runtime ? `<span>${featured.runtime} menit</span>` : ''}
+        <span>★ ${featured.rating.toFixed(1)}</span>
+        ${featured.genres && featured.genres.length ? `<span>${featured.genres.join(', ')}</span>` : ''}
+      </div>
+      <p class="cv-hero-overview">${featured.overview}</p>
+      <div class="cv-hero-actions">
+        <button class="cv-btn cv-btn--solid" onclick="openModal('${featured.id}')">Lihat Detail</button>
+        <button class="cv-btn ${saved ? 'cv-btn--saved' : 'cv-btn--ghost'} cv-ticket" id="cv-hero-watchlist-btn" onclick='toggleWatchlist(${JSON.stringify(featured).replace(/'/g,"&apos;")})'>
+          ${saved ? '✓ Tersimpan di Vault' : '+ Tambah ke Vault'}
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+/* ---------- render: chips ---------- */
+function renderChips(){
+  document.getElementById('cv-chips').innerHTML = GENRES.map(g => `
+    <button class="cv-chip ${state.activeGenre === g ? 'is-active' : ''}" onclick="setGenre('${g}')">${g}</button>
+  `).join('');
+}
+function setGenre(g){ state.activeGenre = g; renderChips(); renderGrid(); }
+
+/* ---------- render: grid ---------- */
+function getFiltered(){
+  return state.movies.filter(m => {
+    const matchGenre = state.activeGenre === 'Semua' || (m.genres || []).includes(state.activeGenre);
+    const q = state.query.trim().toLowerCase();
+    const matchQuery = !q || m.title.toLowerCase().includes(q) || (m.overview||'').toLowerCase().includes(q);
+    return matchGenre && matchQuery;
+  });
+}
+function renderGrid(){
+  const list = getFiltered();
+  const grid = document.getElementById('cv-grid');
+  document.getElementById('cv-grid-title').textContent = `Koleksi — ${list.length} judul`;
+  if (!list.length){
+    grid.innerHTML = `<div class="cv-empty">Tidak ada judul yang cocok di rak ini. Coba kata kunci atau genre lain.</div>`;
+    return;
+  }
+  grid.innerHTML = list.map(m => `
+    <div class="cv-card">
+      <div style="position:relative;">
+        ${posterArt(m)}
+        <div class="cv-card-overlay">
+          <button class="cv-icon-btn" title="Lihat detail" onclick="openModal('${m.id}')">▸</button>
+          <button class="cv-icon-btn ${isSaved(m.id) ? 'is-saved' : 'cv-icon-btn--ghost'}" title="Tambah ke vault" onclick='toggleWatchlist(${JSON.stringify(m).replace(/'/g,"&apos;")})'>${isSaved(m.id) ? '✓' : '+'}</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ---------- render: modal ---------- */
+function openModal(id){
+  const m = state.movies.find(x => String(x.id) === String(id));
+  if (!m) return;
+  document.getElementById('cv-modal-body').innerHTML = `
+    ${posterArt(m, 'cv-modal-poster')}
+    <div class="cv-modal-info">
+      <h2 class="cv-modal-title">${m.title}</h2>
+      <div class="cv-modal-meta">
+        <span>${m.year}</span>
+        ${m.runtime ? `<span>${m.runtime} menit</span>` : ''}
+        <span>★ ${m.rating.toFixed(1)}</span>
+        <span>Sutradara: ${m.director || '—'}</span>
+      </div>
+      <div class="cv-tags">${(m.genres||[]).map(g => `<span class="cv-tag">${g}</span>`).join('')}</div>
+      <p class="cv-modal-overview">${m.overview}</p>
+      <div class="cv-modal-actions" id="cv-modal-actions"></div>
+    </div>
+  `;
+  renderModalActions(m);
+  document.getElementById('cv-modal-backdrop').classList.add('is-open');
+}
+function renderModalActions(m){
+  const saved = isSaved(m.id);
+  const trailerUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(m.title + ' official trailer')}`;
+  document.getElementById('cv-modal-actions').innerHTML = `
+    <button class="cv-btn ${saved ? 'cv-btn--saved' : 'cv-btn--solid'} cv-ticket" onclick='toggleWatchlist(${JSON.stringify(m).replace(/'/g,"&apos;")})'>
+      ${saved ? '✓ Tersimpan di Vault' : '+ Tambah ke Vault'}
+    </button>
+    <a class="cv-btn cv-btn--ghost" href="${trailerUrl}" target="_blank" rel="noopener">Tonton Trailer ↗</a>
+  `;
+}
+function closeModal(){ document.getElementById('cv-modal-backdrop').classList.remove('is-open'); }
+
+/* ---------- render: drawer ---------- */
+function renderVaultCount(){ document.getElementById('cv-vault-count').textContent = state.watchlist.length; }
+function renderDrawer(){
+  const list = document.getElementById('cv-drawer-list');
+  if (!state.watchlist.length){
+    list.innerHTML = `<div class="cv-drawer-empty">Belum ada yang disimpan.<br/>Mulai jelajahi koleksi dan tekan tombol "+" pada judul favoritmu.</div>`;
+    return;
+  }
+  list.innerHTML = state.watchlist.map(m => `
+    <div class="cv-stub">
+      <div class="cv-stub-poster">${posterArt(m).replace('cv-poster ', 'cv-poster ')}</div>
+      <div class="cv-stub-info"><b>${m.title}</b><span>${m.year} · ★ ${m.rating.toFixed(1)}</span></div>
+      <button class="cv-stub-remove" title="Hapus" onclick='toggleWatchlist(${JSON.stringify(m).replace(/'/g,"&apos;")})'>✕</button>
+    </div>
+  `).join('');
+}
+function openDrawer(){ document.getElementById('cv-drawer').classList.add('is-open'); document.getElementById('cv-drawer-backdrop').classList.add('is-open'); }
+function closeDrawer(){ document.getElementById('cv-drawer').classList.remove('is-open'); document.getElementById('cv-drawer-backdrop').classList.remove('is-open'); }
+
+/* ---------- search debounce ---------- */
+let searchTimer;
+document.getElementById('cv-search-input').addEventListener('input', e => {
+  clearTimeout(searchTimer);
+  const val = e.target.value;
+  searchTimer = setTimeout(() => { state.query = val; renderGrid(); }, 250);
+});
+
+/* ---------- events ---------- */
+document.getElementById('cv-open-drawer').addEventListener('click', openDrawer);
+document.getElementById('cv-drawer-close').addEventListener('click', closeDrawer);
+document.getElementById('cv-drawer-backdrop').addEventListener('click', closeDrawer);
+document.getElementById('cv-modal-close').addEventListener('click', closeModal);
+document.getElementById('cv-modal-backdrop').addEventListener('click', e => { if (e.target.id === 'cv-modal-backdrop') closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape'){ closeModal(); closeDrawer(); } });
+
+/* ---------- status banner ---------- */
+function showBanner(msg, kind){
+  const el = document.getElementById('cv-status-banner');
+  el.textContent = msg;
+  el.style.display = 'block';
+  el.style.background = kind === 'error' ? 'rgba(142,33,64,0.18)' : 'rgba(201,162,39,0.15)';
+  el.style.color = kind === 'error' ? 'var(--crimson-soft)' : 'var(--gold-soft)';
+  el.style.borderBottom = '1px solid var(--line)';
+}
+function hideBanner(){ document.getElementById('cv-status-banner').style.display = 'none'; }
+
+/* ---------- init ---------- */
+async function init(){
+  if (USE_OMDB) showBanner('Mengambil data film dari OMDb…', 'info');
+  try{
+    state.movies = await fetchMovies();
+    hideBanner();
+  }catch(err){
+    console.error(err);
+    showBanner('Gagal mengambil data dari OMDb (' + err.message + '). Menampilkan data contoh sebagai gantinya.', 'error');
+    state.movies = MOCK_MOVIES;
+  }
+  renderHero();
+  renderChips();
+  renderGrid();
+  renderVaultCount();
+  renderDrawer();
+}
+init();
+</script>
+</body>
 </html>
